@@ -10,7 +10,9 @@ const router = express.Router();
 router.post("/register", async (req, res) => {
   const { username, email, password } = req.body;
   const user = await User.findOne({ email: req.body.email });
-  user && res.status(404).json("user already exsists please login");
+  if(user){
+     res.status(404).json("user already exsists please login");
+  }
   try {
     // const salt = await bcrypt.genSalt(10);
     const hassedPassword = bcrypt.hashSync(password, 'salt');
